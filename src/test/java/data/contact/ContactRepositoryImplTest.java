@@ -23,7 +23,7 @@ public class ContactRepositoryImplTest {
 
     @org.junit.Test
     public void deleteAllContacts() {
-//        cr.deleteAllContacts();
+        cr.deleteAllContacts();
     }
 
     @org.junit.Test
@@ -45,6 +45,6 @@ public class ContactRepositoryImplTest {
 
     @org.junit.Test
     public void deleteContactById() {
-//        cr.deleteContactById(1790);
+        cr.deleteContactById(1790);
     }
 }
