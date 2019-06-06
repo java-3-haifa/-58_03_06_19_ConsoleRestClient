@@ -9,6 +9,7 @@ import data.exception.AuthorizationException;
 import data.exception.RepositoryException;
 import data.exception.WrongContactException;
 import data.store.StoreRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
@@ -95,13 +96,13 @@ public class ContactRepositoryImpl implements ContactRepository {
         public void handleError(ClientHttpResponse response) {
             try {
                 ErrorResponseDto errorResponseDto = mapper.readValue(response.getBody(), ErrorResponseDto.class);
-                if (errorResponseDto.getCode() == 400) {
+                if (errorResponseDto.getCode() == HttpStatus.BAD_REQUEST.value()) {
                     throw new WrongContactException("Wrong contact format! " + errorResponseDto.getMessage());
-                } else if (errorResponseDto.getCode() == 401) {
+                } else if (errorResponseDto.getCode() == HttpStatus.UNAUTHORIZED.value()) {
                     throw new AuthorizationException("Wrong authorization! " + errorResponseDto.getMessage());
-                } else if (errorResponseDto.getCode() == 404) {
+                } else if (errorResponseDto.getCode() == HttpStatus.NOT_FOUND.value()) {
                     throw new WrongContactException("Contact not found! " + errorResponseDto.getMessage());
-                } else if (errorResponseDto.getCode() == 409) {
+                } else if (errorResponseDto.getCode() == HttpStatus.CONFLICT.value()) {
                     throw new WrongContactException("Duplicate fields! " + errorResponseDto.getMessage());
                 } else {
                     throw new RepositoryException(errorResponseDto.getMessage());
